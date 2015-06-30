@@ -1,7 +1,7 @@
 /* 
 * @Author: Krishna Kalubandi
 * @Date:   2015-06-26 14:12:45
-* @Last Modified time: 2015-06-30 11:14:16
+* @Last Modified time: 2015-06-30 11:19:59
 */
 
 
@@ -12,7 +12,7 @@
 #include <queue>
 #include <cmath>
 #define gc getchar
-
+#define ll long long
 #define pc(x) putchar(x);
 #define rep(i,n) for(int i = 0; i < n; ++i)
 #define loop(i,x,y) for(int i = x; i < y; ++i)
@@ -45,40 +45,33 @@ inline void writeInt (int n)
     }
 int main(int argc, char const *argv[])
 {
-	int t;
-	scanint(t);
-	while(t--)
-	{
-		int p,m;
+	
+		int p;
+		ll m;
 		scanint(p);
-		scanint(m);
+		scanf("%lld",&m);
 		int a[p];
 		rep(i,p) scanint(a[i]);
-		int pans = 0;
-		int mans = 0;
-		int cp = 0;
-		int cm = 0;
+		ll mans = 0;
+		ll cm = 0;
 		int j = 0;
 		for (int i = 0; i < p; ++i)
 		{
 			if( j >= p)
 				break;
 			while (m >= a[j] && j < p){
-				cp++;m -= a[j];cm += a[j];j++;
+				m -= a[j];cm += a[j];j++;
 			}
-			if (cp > pans){ 
-				pans = cp; mans = cm;
+			if (cm > mans){ 
+				mans = cm;
 			}
-			else if(cp == pans && cm <= mans){
-				pans = cp; mans = cm;
-			}
-			if (cp != 0){
-				cp--; m += a[i]; cm -= a[i];
+			if (j != 0){
+				m += a[i]; cm -= a[i];
 			}
 			if(j == i)
 				j++;
 		}
-		printf("%d %d\n",mans,pans);
-	}
+		printf("%lld\n",mans);
+	
 	return 0;
 }

@@ -1,7 +1,7 @@
 /* 
 * @Author: Krishna Kalubandi
 * @Date:   2015-06-27 22:13:35
-* @Last Modified time: 2015-06-27 23:53:28
+* @Last Modified time: 2015-06-30 11:10:27
 */
 
 
@@ -16,36 +16,9 @@
 
 using namespace std;
 
-int max (int a, int b) { return a > b ? a : b;}
+int min (int a, int b) { return a < b ? a : b;}
 int gcd(int a, int b){ return (b==0)? a : gcd(b, a%b);}
-
-int findmin(int a[][3] , int i, int j)
-{
-	if (i == 0)
-	{
-		return a[i][j];
-	}
-	
-	int min = 1000000;
-	for (int k = j; k < 3; ++k)
-	{
-		rep(l,3)
-		{
-			if( l != j)
-			{
-				int ans = a[i][k] + findmin(a,i-1,l);
-				cout<<ans<<endl;
-				if (ans < min)
-				{
-					min = ans;
-				}
-			}
-
-		}
-	}
-	return min;
-}
-
+int a[21][3];
 int main(){
 
 	int t;
@@ -54,12 +27,17 @@ int main(){
 	{
 		int n;
 		cin>>n;
-		int a[n][3];
 		rep(i,n)
 			rep(j,3)
 				cin>>a[i][j];
-		cout<<findmin(a,n-1,0)<<endl;	
+
+		for (int i = 1; i < n; ++i)
+		{
+			a[i][0] += min(a[i-1][1],a[i-1][2]);
+			a[i][1] += min(a[i-1][0],a[i-1][2]);
+			a[i][2] += min(a[i-1][1],a[i-1][0]);
+		}
+		cout<<min(min(a[n-1][0],a[n-1][1]),a[n-1][2])<<endl;
 	}
-	system("pause");
     return 0;
 }
