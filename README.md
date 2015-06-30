@@ -1,2 +1,4 @@
 # spoj
-my solutions to spoj problems
+My solutions to spoj problems
+
+http://www.spoj.com/users/kp96
