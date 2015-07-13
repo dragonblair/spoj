@@ -1,7 +1,7 @@
 /* 
 * @Author: Krishna Kalubandi
 * @Date:   2015-06-26 11:40:54
-* @Last Modified time: 2015-07-04 22:54:08
+* @Last Modified time: 2015-07-05 11:42:28
 */
 
 
@@ -36,11 +36,13 @@ inline void writeInt (int n)
         pc('\n');
     }
 const int seive = 1000000;
+int maxi = -1;
 int primes[seive+1];
 bool isprimes[seive+1];
-int nfactor[8][seive+1];
+int steps[seive+1];
+int dp[seive+1][13];
 int calcPrimes(){
-
+	primes[0] = 0;
 	primes[1] = 0;
 	for(int i = 2; i <= seive; ++i)
 	{
@@ -53,22 +55,33 @@ int calcPrimes(){
 				else
 					isprimes[j] = true;
 					
-					primes[j]++;
+					primes[j] += i;
 			}
 		}
 	}
-	for (int i = 1; i <= seive; ++i)
+	steps[0] = 0;
+	steps[1] = 0;
+	for (int i = 2; i <= seive; ++i)
 	{
-		for (int j = 0; j < 8; ++j)
-		{
-			if (primes[i] == j)
-			{
-				nfactor[j][i] = nfactor[j][i-1] + 1;
-			}
-			else
-				nfactor[j][i] = nfactor[j][i-1];
+		if(!isprimes[i])
+			steps[i] = 1;
+		else{
+			int cur_step = 1;
+			for (int x = primes[i]; isprimes[x] != false; x = primes[x],++cur_step);
+			steps[i] = cur_step + 1;
 		}
 	}
+	for (int i = 1; i <= 12; ++i)
+	{
+		for (int j = 2; j <= seive; ++j)
+		{
+			if(steps[j] == i)
+				dp[j][i] = dp[j-1][i] + 1;
+			else
+				dp[j][i] = dp[j-1][i];
+		}
+	}
+	
 }
 
 int max (int a, int b) { return a > b ? a : b;}
@@ -77,17 +90,18 @@ int gcd(int a, int b){ return (b==0)? a : gcd(b, a%b);}
 
 
 int main(){
+
 	calcPrimes();
 	int t;
 	scanint(t);
 	while(t--){
-		int a,b,n;
+		int a,b,k;
 		scanint(a);
 		scanint(b);
-		scanint(n);
-		if(n > 7)
-			writeInt(0);
+		scanint(k);
+		if(k > 12)
+			printf("0\n");
 		else
-			writeInt(nfactor[n][b] - nfactor[n][a-1]);
+			printf("%d\n",dp[b][k] - dp[a-1][k]);
 	}
 }
