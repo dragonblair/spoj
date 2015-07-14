@@ -17,7 +17,7 @@ void scanint(long &x)
     for(;(c<48 || c>57);c = gc());
     for(;c>47 && c<58;c = gc()) {x = (x<<1) + (x<<3) + c - 48;}
 }
-inline void writeInt (int n)
+void writeInt (int n)
     {
         int N = n, rev, count = 0;
         rev = N;
