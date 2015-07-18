@@ -1,7 +1,7 @@
 /* 
 * @Author: Krishna Kalubandi
 * @Date:   2015-06-18 18:05:29
-* @Last Modified time: 2015-07-15 09:54:07
+* @Last Modified time: 2015-07-15 09:57:02
 */
 
 
@@ -12,8 +12,9 @@
 #include <queue>
 #include <cmath>
 
-unsigned long long MAX =  1000000000000000000ULL;
-long long sum[27];
+unsigned long long MAX =  10e15;
+long long *sum;
+int size;
 #define rep(i,n) for(int i = 0; i < n; ++i)
 #define loop(i,x,y) for(int i = x; i < y; ++i)
 
@@ -25,6 +26,8 @@ int gcd(int a, int b){ return (b==0)? a : gcd(b, a%b);}
 
 void precomp()
 {
+	size = ceil(log2(MAX));
+	sum = new long long[size];
 	int count = 0;
 	long long tsum = 0;
 	long long pwr = 1;
@@ -32,12 +35,12 @@ void precomp()
 	{
 		tsum += pwr;
 		sum[count] = tsum;
-		pwr *= 5;
+		pwr *= 2;
 		++count;
 	}
 	
 }
-const char words[] = {'m','a','n','k','u'};
+const char words[] = {'5','6'};
 int main(){
 	precomp();
 
@@ -45,13 +48,13 @@ int main(){
 	cin>>t;
 	
 	while(t--){
-		char ans[27];
+		char ans[size];
 		long long int n;
 		cin>>n;
 		int i;
 		for(i = 0; n >= sum[i]; i++)
 		{
-			ans[i] = 'm';
+			ans[i] = '5';
 		}
 		ans[i] = '\0';
 		long long offset = n - sum[i-1];
@@ -60,8 +63,8 @@ int main(){
 
 		while(offset != 0)
 		{
-			ans[index] = words[offset % 5];
-			offset /= 5;
+			ans[index] = words[offset % 2];
+			offset /= 2;
 			index--;
 		}
 		cout<<ans<<endl;
